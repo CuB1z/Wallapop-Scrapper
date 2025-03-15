@@ -1,5 +1,7 @@
 from wallapop.wallapopScrapper import WallapopScraper
 from wallapop.dbUtils import DBUtils
+from telegram.client import TelegramClient
+from textwrap import dedent
 
 if __name__ == "__main__":
     params = {
@@ -15,14 +17,15 @@ if __name__ == "__main__":
         "min_horse_power": 100,
         "time_filter": "today",
         "order_by": "newest",
-        "keywords": ""
+        "keywords": "bmw"
     }
 
     PRODUCTS_TABLE = "products"
 
-    # Initialize the scraper and the database utilities
+    # Initialize dependencies
     scraper = WallapopScraper()
     db = DBUtils()
+    tb_client = TelegramClient()
 
     # Scrape the products
     products = scraper.scrape(params)
@@ -31,3 +34,30 @@ if __name__ == "__main__":
     # Store the products in the database
     new_products, updated_products = db.store_products(products, PRODUCTS_TABLE)
     db.close()
+
+    # Send the new products to the Telegram channel
+    for product in new_products:
+        message = dedent(f"""
+        🆕 Nuevo Producto!!
+        🚗 {product["title"]}
+
+        📝 Descripción
+        {product["description"]}
+
+        💰 {product["price"]}
+        📌 {product["url"]}
+        """)
+
+        tb_client.send_message(message)
+
+    # Send the updated products to the Telegram channel
+    for product in updated_products:
+        message = dedent(f"""
+        🔄 Producto actualizado!!
+        🚗 {product["title"]}
+
+        💰 {product["price"]}
+        📌 {product["url"]}
+        """)
+
+        tb_client.send_message(message)

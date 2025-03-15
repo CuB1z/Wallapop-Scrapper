@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from telebot import TeleBot
+from time import sleep
 import os
 
 class TelegramClient:
@@ -18,5 +19,6 @@ class TelegramClient:
         try:
             self.tb.send_message(self.ch_id, message)
             print("[+] Message sent correctly")
+            sleep(3)
         except Exception as e:
             print(f"[-] Error sending the message: {e}")
