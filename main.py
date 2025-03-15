@@ -1,6 +1,7 @@
 from wallapop.wallapopScrapper import WallapopScraper
 from wallapop.dbUtils import DBUtils
 from telegram.client import TelegramClient
+from utils.date import get_current_time
 from textwrap import dedent
 
 if __name__ == "__main__":
@@ -61,3 +62,5 @@ if __name__ == "__main__":
         """)
 
         tb_client.send_message(message)
+
+    print(f"> Updated products at {get_current_time(2)} -- {len(updated_products) + len(new_products)} products updated")

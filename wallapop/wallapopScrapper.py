@@ -45,7 +45,6 @@ class WallapopScraper:
                     "price": price
                 }
 
-                print(f"+ Product scrapped: {title}")
                 product_list.append(product)
             except Exception as e:
                 print(f"Error processing product: {e}")
