@@ -1,0 +1,8 @@
+CREATE TABLE products (  
+    id int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
+    create_time DATETIME COMMENT 'Create Time' DEFAULT CURRENT_TIMESTAMP,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    url VARCHAR(255) NOT NULL UNIQUE,
+    price VARCHAR(255) NOT NULL
+) COMMENT '';
