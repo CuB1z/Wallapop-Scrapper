@@ -23,8 +23,6 @@ class DBUtils:
                 elif result["price"] != product["price"]:
                     self.__insert_product(product, table)
                     updated_products.append(product)
-                else:
-                    print(f"Product already stored: {product['title']}")
                 
             except Exception as e:
                 print(f"Error storing product: {e}")
