@@ -1,0 +1,4 @@
+selenium
+python-dotenv
+mysql-connector-python
+pyTelegramBotAPI
