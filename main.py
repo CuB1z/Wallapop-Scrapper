@@ -1,10 +1,12 @@
+import schedule
+import time
 from wallapop.wallapopScrapper import WallapopScraper
 from wallapop.dbUtils import DBUtils
 from telegram.client import TelegramClient
 from utils.date import get_current_time
 from textwrap import dedent
 
-if __name__ == "__main__":
+def scrape_and_notify(keywords):
     params = {
         "category_ids": 100,
         "filters_source": "search_box",
@@ -18,7 +20,7 @@ if __name__ == "__main__":
         "min_horse_power": 100,
         "time_filter": "today",
         "order_by": "newest",
-        "keywords": "bmw"
+        "keywords": keywords
     }
 
     PRODUCTS_TABLE = "products"
@@ -64,3 +66,18 @@ if __name__ == "__main__":
         tb_client.send_message(message)
 
     print(f"> Updated products at {get_current_time(2)} -- {len(updated_products) + len(new_products)} products updated")
+
+if __name__ == "__main__":
+    keywords_list = ["bmw", "audi a3", "golf", "ibiza", "leon", "focus"]
+
+    # Run initial search for each keyword
+    for keywords in keywords_list:
+        scrape_and_notify(keywords)
+
+    # Schedule the searches to run every 20 minutes
+    for keywords in keywords_list:
+        schedule.every(20).minutes.do(scrape_and_notify, keywords=keywords)
+        
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
