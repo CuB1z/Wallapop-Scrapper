@@ -175,6 +175,8 @@ Wallapop scraper using Selenium for Python, which retrieves products based on a 
 
 ## 📜 License
 
-This project is licensed under the CC License.
+This project is licensed under a Creative Commons CC0 1.0 Universal License.
+
+You should have received a copy of the license along with this work. If not, see [https://creativecommons.org/publicdomain/zero/1.0/](https://creativecommons.org/publicdomain/zero/1.0/).
 
 ---
