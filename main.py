@@ -9,6 +9,7 @@ from utils.jsonParser import parse_json
 
 PRODUCTS_TABLE = "products"
 CONFIG_FILE = "./wallapop/wallapopConfig.json"
+INTERVAL = 20
 
 def generate_new_products_message(product: dict) -> str:
     return dedent(f"""
@@ -76,8 +77,8 @@ if __name__ == "__main__":
     # Run initial scrape
     scrape_all(scrape_config)
 
-    # Schedule the search to run every 20 minutes
-    schedule.every(20).minutes.do(scrape_all, config=scrape_config)
+    # Schedule the search to run every INTERVAL minutes
+    schedule.every(INTERVAL).minutes.do(scrape_all, config=scrape_config)
         
     while True:
         schedule.run_pending()
