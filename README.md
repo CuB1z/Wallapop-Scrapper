@@ -44,19 +44,12 @@ Run the main script:
 python main.py
 ```
 
-## 📂 Project Structure
-
-- **main.py:** Main script that runs the scraper, stores products in the database, and sends updates to Telegram.
-- **db:** Contains the configuration and connection to the MySQL database.
-- **telegram:** Contains the Telegram client for sending messages.
-- **wallapop:** Contains the scraper and utilities for interacting with Wallapop.
-
 ## 👥 Developers
 
-| Name            | GitHub                                      |
-|-----------------|---------------------------------------------|
-| Daniel Santos   | [@danisntoss](https://github.com/danisntoss)|
-| Diego Sánchez   | [@cub1z](https://github.com/cub1z)          |
+| Name            | Linkedin                                                 | GitHub                                       |
+| --------------- | -------------------------------------------------------- | -------------------------------------------- |
+| Daniel Santos   | [Daniel Santos](https://www.linkedin.com/in/danisntoss/) | [@danisntoss](https://github.com/danisntoss) |
+| Diego Sánchez   | [Diego Sánchez](https://www.linkedin.com/in/cub1z/)      | [@cub1z](https://github.com/cub1z)           |
 
 ## 📜 License
 

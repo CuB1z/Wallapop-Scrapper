@@ -11,7 +11,7 @@ class WallapopScraper:
         self.driver = webdriver.Chrome()
         self.wait = WebDriverWait(self.driver, 60)
 
-    def scrape(self, params):
+    def scrape(self, params: dict):
         full_url = self.__build_url(BASE_URL, params)
         print(f">> Scraping URL: {full_url}")
         self.driver.get(full_url)
@@ -55,5 +55,5 @@ class WallapopScraper:
     def close(self):
         self.driver.quit()
 
-    def __build_url(self, url, params):
+    def __build_url(self, url: str, params: dict):
         return f"{url}?{urlencode(params)}"

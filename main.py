@@ -1,30 +1,37 @@
 import schedule
 import time
+from textwrap import dedent
 from wallapop.wallapopScrapper import WallapopScraper
 from wallapop.dbUtils import DBUtils
 from telegram.client import TelegramClient
 from utils.date import get_current_time
-from textwrap import dedent
+from utils.jsonParser import parse_json
 
-def scrape_and_notify(keywords):
-    params = {
-        "category_ids": 100,
-        "filters_source": "search_box",
-        "latitude": 40.41956,
-        "longitude": -3.69196,
-        "max_sale_price": 3000,
-        "min_km": 1000,
-        "max_km": 250000,
-        "min_year": 2000,
-        "max_year": 2008,
-        "min_horse_power": 100,
-        "time_filter": "today",
-        "order_by": "newest",
-        "keywords": keywords
-    }
+PRODUCTS_TABLE = "products"
+CONFIG_FILE = "./wallapop/wallapopConfig.json"
 
-    PRODUCTS_TABLE = "products"
+def generate_new_products_message(product: dict) -> str:
+    return dedent(f"""
+    🆕 Nuevo Producto!!
+    🚗 {product["title"]}
 
+    📝 Descripción
+    {product["description"]}
+
+    💰 {product["price"]}
+    📌 {product["url"]}
+    """)
+
+def generate_updated_products_message(product: dict) -> str:
+    return dedent(f"""
+    🔄 Producto actualizado!!
+    🚗 {product["title"]}
+
+    💰 {product["price"]}
+    📌 {product["url"]}
+    """)
+
+def scrape_and_notify(params: dict):
     # Initialize dependencies
     scraper = WallapopScraper()
     db = DBUtils()
@@ -40,43 +47,37 @@ def scrape_and_notify(keywords):
 
     # Send the new products to the Telegram channel
     for product in new_products:
-        message = dedent(f"""
-        🆕 Nuevo Producto!!
-        🚗 {product["title"]}
-
-        📝 Descripción
-        {product["description"]}
-
-        💰 {product["price"]}
-        📌 {product["url"]}
-        """)
-
+        message = generate_new_products_message(product)
         tb_client.send_message(message)
 
     # Send the updated products to the Telegram channel
     for product in updated_products:
-        message = dedent(f"""
-        🔄 Producto actualizado!!
-        🚗 {product["title"]}
-
-        💰 {product["price"]}
-        📌 {product["url"]}
-        """)
-
+        message = generate_updated_products_message(product)
         tb_client.send_message(message)
 
-    print(f"> Updated products at {get_current_time(2)} -- {len(updated_products) + len(new_products)} products updated")
+    print(f"> Updated products at {get_current_time(1)} -- {len(updated_products) + len(new_products)} products updated")
+
+def scrape_all(config):
+    params = config["params"]
+    keywords = config["keywords"]
+
+    for keyword in keywords:
+        print(f"> Searching for: {keyword}")
+        params["keywords"] = keyword
+        scrape_and_notify(params)
+
+
+# [Main] ---------------------------------------------------------------------->>
 
 if __name__ == "__main__":
-    keywords_list = ["bmw", "audi a3", "golf", "ibiza", "leon", "focus"]
+    # Load the configuration file
+    scrape_config = parse_json(CONFIG_FILE)
 
-    # Run initial search for each keyword
-    for keywords in keywords_list:
-        scrape_and_notify(keywords)
+    # Run initial scrape
+    scrape_all(scrape_config)
 
-    # Schedule the searches to run every 20 minutes
-    for keywords in keywords_list:
-        schedule.every(20).minutes.do(scrape_and_notify, keywords=keywords)
+    # Schedule the search to run every 20 minutes
+    schedule.every(20).minutes.do(scrape_all, config=scrape_config)
         
     while True:
         schedule.run_pending()
