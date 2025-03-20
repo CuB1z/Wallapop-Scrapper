@@ -1,6 +1,6 @@
 import json
 
-def parse_json(file_path) -> dict:
+def parse_json(file_path: str) -> dict:
     try:
         with open(file_path, "r") as file:
             data = json.load(file)
@@ -9,7 +9,7 @@ def parse_json(file_path) -> dict:
         print(f"File not found: {file_path}")
         return None
     
-def write_json(file_path, data) -> bool:
+def write_json(file_path: str, data: dict) -> bool:
     try:
         with open(file_path, "w") as file:
             json.dump(data, file, indent=4)
