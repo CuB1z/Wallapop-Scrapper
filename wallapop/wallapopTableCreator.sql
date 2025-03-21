@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS products;
+
 CREATE TABLE products (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
@@ -11,7 +13,7 @@ CREATE TABLE products (
     version VARCHAR(255),
     year INT,
     kilometers INT,
-    fuel ENUM('Gasoline', 'Diesel', 'Electric', 'Hybrid', 'Other'),
+    fuel ENUM('Gasoline', 'Gasoil', 'Electric', 'Hybrid', 'Other'),
     gearbox ENUM('manual', 'automatic'),
     horsepower FLOAT,
     creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
