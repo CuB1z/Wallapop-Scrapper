@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from telebot import TeleBot
 from time import sleep
+from textwrap import dedent
 import os
 
 class TelegramClient:
@@ -17,8 +18,27 @@ class TelegramClient:
 
     def send_message(self, message):
         try:
-            self.tb.send_message(self.ch_id, message)
-            print("[+] Message sent correctly")
+            self.tb.send_message(self.ch_id, message, parse_mode="Markdown")
+            print("  [+] Message sent correctly")
             sleep(3)
         except Exception as e:
             print(f"[-] Error sending the message: {e}")
+    
+    def generate_new_products_message(self, product: dict) -> str:
+        return (
+            f"🆕 *Nuevo Producto!!*\n"
+            f"🚗 *{product['title']}*\n\n"
+            f"📍 *{product['location']}*\n\n"
+            f"📝 *Descripción*\n"
+            f"{product['description']}\n\n"
+            f"💰 *Precio:* {int(product['price'])} €\n\n"
+            f"📌 [Ver en Wallapop]({product['url']})\n"
+        )
+
+    def generate_updated_products_message(self, product: dict) -> str:
+        return (
+            f"🔄 *Producto actualizado!!*\n"
+            f"🚗 *{product['title']}*\n\n"
+            f"💰 *Precio:* {int(product['price'])} €\n\n"
+            f"📌 [Ver en Wallapop]({product['url']})\n"
+        )

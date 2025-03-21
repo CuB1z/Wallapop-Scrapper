@@ -2,6 +2,9 @@ from mysql.connector import connect as MySQLConnect
 from dotenv import load_dotenv
 import os
 
+# Load the environment variables
+load_dotenv()
+
 # Database configuration for MySQL
 DB_CONFIG = {
     "host": os.getenv("DB_HOST"),

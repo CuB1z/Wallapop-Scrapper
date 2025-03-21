@@ -39,15 +39,39 @@ class DBUtils:
     def __insert_product(self, product, table):
         self.mysql.execute(
             f"""
-            INSERT INTO {table} (title, description, url, price)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO {table} (
+                title, description, status, price, location, distance, brand, model, version, 
+                year, kilometers, fuel, gearbox, horsepower, creation_date, modification_date, url
+            )
+            VALUES (
+                %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+                %s, %s, %s, %s, %s, %s, %s, %s
+            )
             ON DUPLICATE KEY UPDATE
-            title = VALUES(title),
-            description = VALUES(description),
-            url = VALUES(url),
-            price = VALUES(price)
+                title = VALUES(title),
+                description = VALUES(description),
+                status = VALUES(status),
+                price = VALUES(price),
+                location = VALUES(location),
+                distance = VALUES(distance),
+                brand = VALUES(brand),
+                model = VALUES(model),
+                version = VALUES(version),
+                year = VALUES(year),
+                kilometers = VALUES(kilometers),
+                fuel = VALUES(fuel),
+                gearbox = VALUES(gearbox),
+                horsepower = VALUES(horsepower),
+                modification_date = VALUES(modification_date),
+                url = VALUES(url)
             """,
-            (product["title"], product["description"], product["url"], product["price"])
+            (
+                product["title"], product["description"], product["status"], product["price"],
+                product["location"], product["distance"], product["brand"], product["model"],
+                product["version"], product["year"], product["kilometers"], product["fuel"],
+                product["gearbox"], product["horsepower"], product["creation_date"],
+                product["modification_date"], product["url"]
+            )
         )
         self.mysql.commit()
-        print(f"+ Product stored: {product["title"]}")
+        print(f"  + Product stored: {product['title']}")
