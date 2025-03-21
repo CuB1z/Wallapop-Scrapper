@@ -30,6 +30,7 @@ class WallapopSearcher:
 
     def __add_specific_params(self, url: str, specific_params: dict) -> str:
         for key, value in specific_params.items():
-            url += f"{key}={value.replace(" ", "_")}&"
+            if value != -1:
+                url += f"{key}={value.replace(" ", "_")}&"
 
         return url
