@@ -18,7 +18,10 @@ class WallapopSearcher:
 
             response = requests.get(url)
             data = response.json()
-            write_json(f"./output/{item["brand"]}_{item["keywords"].replace(' ', '_')}.json", data)
+
+            brand = item["brand"] if item["brand"] != -1 else ""
+            keywords = item["keywords"] if item["keywords"] != -1 else ""
+            write_json(f"./output/{brand}_{keywords.replace(' ', '_')}.json", data)
 
     def __build_common_url(self, url: str, common_params: dict) -> str:
         url += "?"
