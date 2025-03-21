@@ -7,7 +7,6 @@ Wallapop scraper using Selenium for Python, which retrieves products based on a 
 | Requirement  | Description                                          |
 | ------------ | ---------------------------------------------------- |
 | 🐍 Python   | Python 3.x is required to run the scripts.            |
-| 🌐 Selenium | Selenium is used for web scraping.                    |
 | 🗄️ MySQL    | MySQL is the database used to store the scraped data. |
 | 🤖 Telebot  | Telebot is used to send updates via a Telegram bot.   |
 | 🛠️ dotenv   | dotenv is used to manage environment variables.       |
@@ -128,24 +127,55 @@ Wallapop scraper using Selenium for Python, which retrieves products based on a 
 1. **🛠️ Configure the query params and keywords in the `wallapop/wallapopConfig.json` file**
     ```json
     {
-        "params": {
+        "common_params": {
             "category_ids": 100,
             "filters_source": "search_box",
             "latitude": 40.41956,
             "longitude": -3.69196,
-            "max_sale_price": 3000,
-            "min_km": 1000,
+            "distance": 200000,
+            "min_sale_price": 1000,
+            "max_sale_price": 15000,
+            "min_km": 10000,
             "max_km": 250000,
             "min_year": 2000,
-            "max_year": 2008,
-            "min_horse_power": 100,
+            "max_year": 2025,
+            "min_seats": -1,
+            "max_seats": -1,
+            "min_num_doors": -1,
+            "max_num_doors":-1,
+            "min_horse_power": 90,
+            "max_horse_power": 200,
+            "gearbox": "manual",
+            "engine": "gasoline",
             "time_filter": "today",
-            "order_by": "newest",
-            "... add your own params": "..."
+            "order_by": "newest"
         },
-        "keywords": ["bmw", "audi a3", "... add your own keywords"]
+        "specific_params": [
+            { "brand": "peugeot", "keywords": "207" }
+        ]
     }
     ```
+
+    - `category_ids`: Category ID of the products you want to search for.
+    - `filters_source`: Source of the filters.
+    - `latitude` and `longitude`: Coordinates of the location where you want to search.
+    - `distance`: Distance in meters from the location.
+    - `min_sale_price` and `max_sale_price`: Price range of the products.
+    - `min_km` and `max_km`: Kilometers range of the products.
+    - `min_year` and `max_year`: Year range of the products.
+    - `min_seats` and `max_seats`: Seats range of the products.
+    - `min_num_doors` and `max_num_doors`: Number of doors range of the products.
+    - `min_horse_power` and `max_horse_power`: Horse power range of the products.
+    - `gearbox`: Gearbox type of the products. [automatic, manual]
+    - `engine`: Engine type of the products. [diesel, gasoline]
+    - `time_filter`: Time filter of the products. [today, lastWeek, lastMonth]
+    - `order_by`: Order of the products. [newest, priceAsc, priceDesc]
+
+    - `specific_params`: List of specific parameters for each brand and keywords.
+      - `brand`: Brand of the products.
+      - `keywords`: Keywords of the products.
+
+    If you want to ignore any of the parameters, you can set them to `-1`.
 
 2. **📝 Feel free to modify the `main.py` params present at the top of the file**
     ```python
