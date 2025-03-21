@@ -22,7 +22,7 @@ class TelegramClient:
             print("  [+] Message sent correctly")
             sleep(3)
         except Exception as e:
-            print(f"[-] Error sending the message: {e}")
+            print(f"  [-] Error sending the message: {e}")
     
     def generate_new_products_message(self, product: dict) -> str:
         return (
