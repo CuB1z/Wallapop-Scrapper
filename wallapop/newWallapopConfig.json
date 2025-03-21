@@ -23,8 +23,6 @@
         "order_by": "newest"
     },
     "specific_params": [
-        { "brand": "bmw", "keywords": "serie 1" },
-        { "brand": "audi", "keywords": "a3" },
-        { "brand": "volkswagen", "keywords": "golf" }
+        { "brand": "peugeot", "keywords": "207" }
     ]
 }

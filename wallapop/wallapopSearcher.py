@@ -1,4 +1,5 @@
 from utils.jsonParser import write_json
+from utils.date import get_current_time
 import requests
 from urllib.parse import urlencode
 
@@ -12,6 +13,8 @@ class WallapopSearcher:
         for item in specific_params:
             url = self.__build_common_url(BASE_API_URL, common_params)
             url = self.__add_specific_params(url, item)
+
+            print(f"[{get_current_time(1)}] Searching for {item['brand']} {item['keywords']}...")
 
             response = requests.get(url)
             data = response.json()
@@ -27,6 +30,6 @@ class WallapopSearcher:
 
     def __add_specific_params(self, url: str, specific_params: dict) -> str:
         for key, value in specific_params.items():
-            url += f"{key}={value.replace(" ", "_")}"
+            url += f"{key}={value.replace(" ", "_")}&"
 
         return url
