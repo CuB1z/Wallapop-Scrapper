@@ -36,23 +36,23 @@ class WallapopSearcher:
 
         for obj in objects:
             obj_data = {
-                "title": obj["content"]["title"],
-                "description": obj["content"]["storytelling"],
+                "title": obj["content"]["title"] if "title" in obj["content"] else "",
+                "description": obj["content"]["storytelling"] if "storytelling" in obj["content"] else "",
                 "status": self.__set_status__(obj["content"]["flags"]),
-                "price": obj["content"]["price"],
-                "location": obj["content"]["location"]["city"],
-                "distance": obj["content"]["distance"],
-                "brand": obj["content"]["brand"],
-                "model": obj["content"]["model"],
-                "version": obj["content"]["version"],
-                "year": obj["content"]["year"],
-                "kilometers": obj["content"]["km"],
-                "fuel": obj["content"]["engine"],
-                "gearbox": obj["content"]["gearbox"],
-                "horsepower": obj["content"]["horsepower"],
-                "creation_date": obj["content"]["creation_date"],
-                "modification_date": obj["content"]["modification_date"],
-                "url": BASE_ITEM_URL + obj["content"]["web_slug"]
+                "price": obj["content"]["price"] if "price" in obj["content"] else 0,
+                "location": obj["content"]["location"]["city"] if "city" in obj["content"]["location"] else "Unknown",
+                "distance": obj["content"]["distance"] if "distance" in obj["content"] else 0,
+                "brand": obj["content"]["brand"] if "brand" in obj["content"] else "",
+                "model": obj["content"]["model"] if "model" in obj["content"] else "",
+                "version": obj["content"]["version"] if "version" in obj["content"] else "",
+                "year": obj["content"]["year"] if "year" in obj["content"] else 0,
+                "kilometers": obj["content"]["km"] if "km" in obj["content"] else 0,
+                "fuel": obj["content"]["engine"] if "engine" in obj["content"] else "",
+                "gearbox": obj["content"]["gearbox"] if "gearbox" in obj["content"] else "",
+                "horsepower": obj["content"]["horsepower"] if "horsepower" in obj["content"] else 0,
+                "creation_date": obj["content"]["creation_date"] if "creation_date" in obj["content"] else "",
+                "modification_date": obj["content"]["modification_date"] if "modification_date" in obj["content"] else "",
+                "url": BASE_ITEM_URL + obj["content"]["web_slug"] if "web_slug" in obj["content"] else ""
             }
 
             objects_data.append(obj_data)
