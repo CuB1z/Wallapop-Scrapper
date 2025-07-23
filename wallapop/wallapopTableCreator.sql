@@ -13,7 +13,7 @@ CREATE TABLE products (
     version VARCHAR(255),
     year INT,
     kilometers INT,
-    fuel ENUM('Gasoline', 'Gasoil', 'Electric', 'Hybrid', 'Other'),
+    fuel ENUM('Gasoline', 'Diesel', 'Electric', 'Hybrid', 'Other'),
     gearbox ENUM('manual', 'automatic'),
     horsepower FLOAT,
     creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

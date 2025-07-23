@@ -7,6 +7,21 @@ BASE_API_URL = "https://api.wallapop.com/api/v3/cars/search"
 BASE_ITEM_URL = "https://es.wallapop.com/item/"
 
 class WallapopSearcher:
+    def __map_fuel_value(self, wallapop_fuel):
+        """Mapea los valores de combustible de Wallapop al ENUM de la base de datos"""
+        if not wallapop_fuel or wallapop_fuel.strip() == "":
+            return "Other"
+        
+        fuel_mapping = {
+            'diesel': 'Gasoil',
+            'gasoil': 'Gasoil', 
+            'gasoline': 'Gasoline',
+            'petrol': 'Gasoline',
+            'electric': 'Electric',
+            'hybrid': 'Hybrid'
+        }
+        return fuel_mapping.get(wallapop_fuel.lower(), 'Other')
+
     def search(self, config: dict) -> dict:
         result = []
         common_params = config["common_params"]
@@ -47,13 +62,17 @@ class WallapopSearcher:
                 "version": obj["content"]["version"] if "version" in obj["content"] else "",
                 "year": obj["content"]["year"] if "year" in obj["content"] else 0,
                 "kilometers": obj["content"]["km"] if "km" in obj["content"] else 0,
-                "fuel": obj["content"]["engine"] if "engine" in obj["content"] else "",
+                "fuel": self.__map_fuel_value(obj["content"]["engine"]) if "engine" in obj["content"] else "Other",
                 "gearbox": obj["content"]["gearbox"] if "gearbox" in obj["content"] else "",
                 "horsepower": obj["content"]["horsepower"] if "horsepower" in obj["content"] else 0,
                 "creation_date": obj["content"]["creation_date"] if "creation_date" in obj["content"] else "",
                 "modification_date": obj["content"]["modification_date"] if "modification_date" in obj["content"] else "",
                 "url": BASE_ITEM_URL + obj["content"]["web_slug"] if "web_slug" in obj["content"] else ""
             }
+
+            # Debug temporal: ver el mapeo
+            original_fuel = obj["content"]["engine"] if "engine" in obj["content"] else ""
+
 
             objects_data.append(obj_data)
         
